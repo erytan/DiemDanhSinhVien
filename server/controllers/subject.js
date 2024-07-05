@@ -75,12 +75,21 @@ const createSubjectAndSession = asyncHandler(async (req, res) => {
 const updateSubject = asyncHandler(async (req, res) => {
   const { sid } = req.params
   const response = await Subject.findByIdAndUpdate(sid, req.body, { new: true })
-  return res.satus(200).json({
+  return res.status(200).json({
     mess: response ? true : false,
     updateSubject: response ? response : " Something went wrong",
+  })
+});
+//get ds môn học
+const getSubject = asyncHandler(async(req, res) => {
+  const response = await Subject.find()
+  return res.status(200).json({
+      mes: response ? true : false,
+      subject: response ? response : " Something went wrong",
   })
 });
 
 module.exports = {
   createSubjectAndSession,
+  updateSubject,
 };
