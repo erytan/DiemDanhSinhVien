@@ -71,25 +71,99 @@ const createSubjectAndSession = asyncHandler(async (req, res) => {
     });
   }
 });
-//Update môn học 
+//Update môn học
 const updateSubject = asyncHandler(async (req, res) => {
-  const { sid } = req.params
-  const response = await Subject.findByIdAndUpdate(sid, req.body, { new: true })
+  const { sid } = req.params;
+  const response = await Subject.findByIdAndUpdate(sid, req.body, {
+    new: true,
+  });
   return res.status(200).json({
     mess: response ? true : false,
     updateSubject: response ? response : " Something went wrong",
-  })
+  });
 });
 //get ds môn học
-const getSubject = asyncHandler(async(req, res) => {
-  const response = await Subject.find()
+const getSubjects = asyncHandler(async (req, res) => {
+  const response = await Subject.find();
   return res.status(200).json({
-      mes: response ? true : false,
-      subject: response ? response : " Something went wrong",
-  })
+    mes: response ? true : false,
+    subject: response ? response : " Something went wrong",
+  });
+});
+//get 1 môn học
+const getSubject = asyncHandler(async (req, res) => {
+  const { sid } = req.params;
+  try {
+    const response = await Subject.findById(sid);
+    if (!response) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Subject not found" });
+    }
+    return res.status(200).json({ success: true, data: response });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+//delete môn học
+const deleteSubject = asyncHandler(async (req, res) => {
+  const { sid } = req.params;
+  const response = await monhoc.findByIdAndDelete(sid);
+  return res.status(200).json({
+    mes: response ? true : false,
+    updateBlog: response ? "Delete Successfully!!" : " Something went wrong",
+  });
+});
+const updateSubjectAndSession = asyncHandler(async (req, res) => {
+  const { sid, ssid } = req.params;
+
+  try {
+    // Update the Subject
+    const updatedSubject = await Subject.findByIdAndUpdate(
+      sid,
+      req.body.subject,
+      {
+        new: true,
+      }
+    );
+
+    // Update the Session
+    const updatedSession = await Session.findByIdAndUpdate(
+      ssid,
+      req.body.session,
+      {
+        new: true,
+      }
+    );
+
+    // Insert session into the sessions array of updated subject
+    if (updatedSubject && updatedSession) {
+      updatedSubject.sessions.push(updatedSession.id_session); // Assuming sessions array stores session IDs
+      await updatedSubject.save();
+    }
+
+    // Return response
+    return res.status(200).json({
+      success: true,
+      updatedSubject,
+      updatedSession,
+    });
+  } catch (error) {
+    // Handle errors
+    console.error("Error updating subject and session:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Something went wrong while updating subject and session",
+    });
+  }
 });
 
 module.exports = {
   createSubjectAndSession,
   updateSubject,
+  getSubjects,
+  getSubject,
+  deleteSubject,
+  updateSubjectAndSession,
 };
+x
