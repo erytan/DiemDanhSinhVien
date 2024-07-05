@@ -1,33 +1,41 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const sessionSchema = new mongoose.Schema({
+const sessionSchema = new mongoose.Schema(
+  {
+    id_session: {
+      type: String,
+      required: true,
+    },
     subject: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Subject',
-        required: true
+      type: String,
+      ref: "Subject",
     },
     date: {
-        type: Date,
-        required: true
+      type: Date,
+      required: true,
     },
     startTime: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     endTime: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     location: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
-    user: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }]
-}, {
-    timestamps: true
-});
+    user: [
+      {
+        type: String,
+        ref: "User",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = mongoose.model('Session', sessionSchema);
+module.exports = mongoose.model("Session", sessionSchema);
