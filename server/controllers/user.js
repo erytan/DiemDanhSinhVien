@@ -19,41 +19,50 @@ const importExcel = asyncHandler(async (req, res) => {
 
     console.log("Data from Excel:", P_JSON); // Kiểm tra dữ liệu đọc từ file Excel
     let idCounter = 1;
-    // Băm mật khẩu trước khi chèn vào MongoDB
-    const usersWithHashedPasswords = await Promise.all(
-      P_JSON.map(async (user, index) => {
-        const salt = bcrypt.genSaltSync(10);
-        
-        // Tạo mã số sinh viên (mssv) với số thứ tự tăng dần
-        const yearSuffix = new Date().getFullYear().toString().slice(-2);
-        const prefix = `DH5${yearSuffix}`;
-        const gmail = `@gmail.com`;
-        const nextNumber = (index + 1).toString().padStart(5, "0");
-        user.password = await bcrypt.hashSync(user.password=`${prefix}${nextNumber}`, salt);
-        user.id_user = idCounter++;
-        user.mssv = `${prefix}${nextNumber}`;
-        user.email= `${prefix}${nextNumber}${gmail}`
-        return user;
-      })
-    );
+    const usersToInsert = [];
+
+    for (let index = 0; index < P_JSON.length; index++) {
+      const user = P_JSON[index];
+      const salt = bcrypt.genSaltSync(10);
+      
+      // Tạo mã số sinh viên (mssv) với số thứ tự tăng dần
+      const yearSuffix = new Date().getFullYear().toString().slice(-2);
+      const prefix = `DH5${yearSuffix}`;
+      const gmail = `@gmail.com`;
+      const nextNumber = (index + 1).toString().padStart(5, "0");
+      const hashedPassword = await bcrypt.hashSync(user.password=`${prefix}${nextNumber}`, salt);
+      const id_user = idCounter++;
+      const mssv = `${prefix}${nextNumber}`;
+      const email = `${prefix}${nextNumber}${gmail}`;
+
+      // Kiểm tra xem người dùng đã tồn tại chưa
+      const existingUser = await User.findOne({ $or: [{ mssv }, { email }] });
+      if (existingUser) {
+        console.log(`User with mssv ${mssv} or email ${email} already exists. Skipping.`);
+        idCounter++; // Giảm số đếm ID nếu bỏ qua người dùng hiện tại
+        continue;
+      }
+
+      usersToInsert.push({
+        id_user,
+        mssv,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email,
+        mobile: user.mobile,
+        password: hashedPassword,
+        role: user.role || '2',
+        address: user.address || []
+      });
+    }
 
     // Chèn dữ liệu vào MongoDB
-    const result = await User.insertMany(usersWithHashedPasswords);
+    const result = await User.insertMany(usersToInsert);
     console.log("Insert Result:", result); // Kiểm tra kết quả chèn dữ liệu
     res.status(200).json(result);
   } catch (error) {
-    if (error.code === 11000) {
-      // Duplicate key error handling
-      console.error("Error inserting users:", error.message);
-      res.status(409).json({ error: "Sinh viên đã tồn tại " });
-    } else if (error.errors && error.errors.mssv) {
-      // Validation error handling (example for 'mssv' field)
-      console.error("Error inserting users:", error.errors.mssv.message);
-      res.status(400).json({ error: error.errors.mssv.message });
-    } else {
-      console.error("Error inserting users:", error);
-      res.status(500).json({ error: "Failed to insert users" });
-    }
+    console.error("Error inserting users:", error);
+    res.status(500).json({ error: "Failed to insert users" });
   }
 });
 
