@@ -71,6 +71,15 @@ const createSubjectAndSession = asyncHandler(async (req, res) => {
     });
   }
 });
+//Update môn học 
+const updateSubject = asyncHandler(async (req, res) => {
+  const { sid } = req.params
+  const response = await Subject.findByIdAndUpdate(sid, req.body, { new: true })
+  return res.satus(200).json({
+    mess: response ? true : false,
+    updateSubject: response ? response : " Something went wrong",
+  })
+});
 
 module.exports = {
   createSubjectAndSession,
