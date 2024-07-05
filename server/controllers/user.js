@@ -18,20 +18,29 @@ const importExcel = asyncHandler(async (req, res) => {
     const P_JSON = xlsx.utils.sheet_to_json(sheet);
 
     console.log("Data from Excel:", P_JSON); // Kiểm tra dữ liệu đọc từ file Excel
-    let idCounter = 1;
-    const usersToInsert = [];
 
+    // Tìm id_user cao nhất hiện có trong cơ sở dữ liệu
+    const highestIdUser = await User.findOne().sort('-id_user').exec();
+    let idCounter = highestIdUser ? highestIdUser.id_user:0;
+
+    const validUsers = [];
     for (let index = 0; index < P_JSON.length; index++) {
       const user = P_JSON[index];
+
+      // Kiểm tra dữ liệu hợp lệ
+      if (!user.firstname || !user.lastname || !user.mobile) {
+        console.log(`Invalid data at index ${index}. Skipping.`);
+        continue;
+      }
+
       const salt = bcrypt.genSaltSync(10);
-      
+
       // Tạo mã số sinh viên (mssv) với số thứ tự tăng dần
       const yearSuffix = new Date().getFullYear().toString().slice(-2);
       const prefix = `DH5${yearSuffix}`;
       const gmail = `@gmail.com`;
       const nextNumber = (index + 1).toString().padStart(5, "0");
-      const hashedPassword = await bcrypt.hashSync(user.password=`${prefix}${nextNumber}`, salt);
-      const id_user = idCounter++;
+      const hashedPassword = await bcrypt.hashSync(user.password = `${prefix}${nextNumber}`, salt);
       const mssv = `${prefix}${nextNumber}`;
       const email = `${prefix}${nextNumber}${gmail}`;
 
@@ -39,12 +48,14 @@ const importExcel = asyncHandler(async (req, res) => {
       const existingUser = await User.findOne({ $or: [{ mssv }, { email }] });
       if (existingUser) {
         console.log(`User with mssv ${mssv} or email ${email} already exists. Skipping.`);
-        idCounter++; // Giảm số đếm ID nếu bỏ qua người dùng hiện tại
         continue;
       }
 
-      usersToInsert.push({
-        id_user,
+      // Tăng id_user cho mỗi người dùng
+      idCounter++;
+
+      validUsers.push({
+        id_user:idCounter,
         mssv,
         firstname: user.firstname,
         lastname: user.lastname,
@@ -57,14 +68,26 @@ const importExcel = asyncHandler(async (req, res) => {
     }
 
     // Chèn dữ liệu vào MongoDB
-    const result = await User.insertMany(usersToInsert);
+    const result = await User.insertMany(validUsers);
     console.log("Insert Result:", result); // Kiểm tra kết quả chèn dữ liệu
     res.status(200).json(result);
   } catch (error) {
-    console.error("Error inserting users:", error);
-    res.status(500).json({ error: "Failed to insert users" });
+    if (error.code === 11000) {
+      // Duplicate key error handling
+      console.error("Error inserting users:", error.message);
+      res.status(409).json({ error: "Sinh viên đã tồn tại" }); 
+    } else if (error.errors && error.errors.mssv) {
+      // Validation error handling (example for 'mssv' field)
+      console.error("Error inserting users:", error.errors.mssv.message);
+      res.status(400).json({ error: error.errors.mssv.message });
+    } else {
+      console.error("Error inserting users:", error);
+      res.status(500).json({ error: "Failed to insert users" });
+    }
   }
 });
+
+
 
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
