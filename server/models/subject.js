@@ -1,3 +1,4 @@
+const mongoose = require("mongoose"); // Erase if already required
 const subjectSchema = new mongoose.Schema({
     id_subject: {
         type: String,
