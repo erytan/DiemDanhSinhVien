@@ -1,0 +1,16 @@
+.card {
+    border-radius: 10px; /* Bo góc thẻ */
+  }
+  
+  .card-body {
+    padding: 1.25rem; /* Khoảng cách bên trong thẻ */
+  }
+  
+  .text-primary { color: #007bff; }
+  .text-success { color: #28a745; }
+  .text-info { color: #17a2b8; }
+  .text-warning { color: #ffc107; }
+  .text-danger { color: #dc3545; }
+  
+  /* Có thể thêm các màu sắc khác nếu cần */
+  

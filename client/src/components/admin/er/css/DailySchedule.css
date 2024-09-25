@@ -1,0 +1,112 @@
+/* Calendar.css */
+.react-calendar {
+  width: auto;
+  max-width: auto;
+  margin: 0 auto;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 8px;
+  border: none !important;
+}
+
+.react-calendar__tile {
+  display: flex;
+  flex-direction: column; /* Ensure vertical layout */
+  justify-content: flex-start; /* Align content to the top */
+  align-items: center;
+  height: auto;
+  width: auto;
+  box-sizing: border-box;
+  border-radius: 1rem; /* Rounded corners for each day tile */
+  padding: 5px; /* Add padding to ensure content spacing */
+}
+
+.react-calendar__tile > abbr {
+  margin-bottom: 5px; /* Add margin to separate the date from content */
+  font-weight: bold; /* Optionally make the date bold */
+}
+
+.react-calendar__tile > div {
+  overflow: hidden;
+}
+
+.react-calendar__tile--active {
+  background-color: #feffff !important;
+  color: #6274db !important;
+}
+
+.react-calendar__tile--now {
+  background-color: #212A37 !important;
+  color: #fff !important;
+}
+
+.react-calendar__month-view__days {
+  border-radius: 1rem; /* Rounded corners for month view days */
+}
+
+.calendar-day-content {
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 5px;
+  margin: 2px;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.calendar-day-content:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+.calendar-day-content ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.calendar-day-content li {
+  font-size: 1em;
+  color: #020202;
+}
+
+@media (max-width: 600px) {
+  .calendar-day-content {
+    font-size: 0.7em;
+    padding: 3px;
+  }
+}
+/* styles.css */
+.session-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Tạo 2 cột */
+  grid-template-rows: repeat(2, auto); /* Tạo 2 hàng với chiều cao tự động */
+  gap: 10px; /* Khoảng cách giữa các phần tử */
+  padding: 0;
+  margin: 0;
+  list-style: none; /* Loại bỏ dấu chấm đầu dòng mặc định */
+}
+
+.session-list li {
+  display: flex;
+  align-items: center;
+  padding: 10px; /* Khoảng cách bên trong mỗi phần tử */
+  position: relative; /* Để định vị dấu chấm đầu dòng */
+}
+
+.session-list li::before {
+  content: "•"; /* Dấu chấm đầu dòng */
+  font-size: 20px; /* Kích thước dấu chấm */
+  margin-right: 10px; /* Khoảng cách giữa dấu chấm và văn bản */
+}
+.calendar-day-content {
+  text-align: center;
+  font-size: 0.8rem;
+}
+.calendar-day-has-sessions {
+  position: relative;
+  color: #f44336; /* Màu đỏ */
+
+}
+
+

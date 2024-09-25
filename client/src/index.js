@@ -3,7 +3,8 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { store,persistor } from "./store/redux";
 import App from "./App";
-import "./css/index.css";
+import AppAdmin from "./AppAdmin";
+;
 import { BrowserRouter } from "react-router-dom";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { PersistGate } from "redux-persist/integration/react";
@@ -15,7 +16,6 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-       
         <BrowserRouter>
           <HelmetProvider>
             <Helmet>
@@ -46,8 +46,10 @@ root.render(
               <link href="css/font-awesome.min.css" rel="stylesheet" />
               <link href="css/style.css" rel="stylesheet" />
               <link href="css/responsive.css" rel="stylesheet" />
+              
             </Helmet>
             <App />
+            <AppAdmin />
           </HelmetProvider>
         </BrowserRouter>
       </PersistGate>

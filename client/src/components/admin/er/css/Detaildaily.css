@@ -1,0 +1,40 @@
+/* DetaiDaily.css */
+
+.custom-table {
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px; /* Bo góc bảng */
+    overflow: hidden; /* Ẩn phần viền ngoài bảng bo góc */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bóng đổ nhẹ */
+  }
+  
+  .custom-table th, .custom-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #dee2e6;
+  }
+  
+  .custom-table th {
+    background-color: #4ebaec; /* Màu nền tiêu đề */
+    color: #fff; /* Màu chữ tiêu đề */
+    font-weight: bold;
+  }
+  
+  .custom-table td {
+    background-color: #f8f9fa; /* Màu nền chính của các hàng */
+  }
+  
+  .custom-table tr:hover {
+    background-color: #d6d6d6; /* Màu nền khi hover */
+  }
+  
+  .custom-table td[rowSpan] {
+    vertical-align: middle;
+  }
+  
+  .custom-table td {
+    vertical-align: top;
+  }
+  

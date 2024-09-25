@@ -1,0 +1,22 @@
+/* inputField.css */
+.form-floating {
+    position: relative;
+}
+
+.form-floating input {
+    border-radius: 20px; /* Đặt bán kính bo góc ở đây */
+    border: 1px solid #ced4da; /* Định nghĩa border cho input */
+    padding: 10px; /* Tăng padding để tránh chạm vào border */
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-floating input:focus {
+    border-color: #202931;
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+.form-floating input:not(:placeholder-shown) + label {
+    transform: translateY(-120%);
+    font-size: 0.75rem;
+    color: #6c757d;
+}

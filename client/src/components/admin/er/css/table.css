@@ -1,0 +1,55 @@
+/* Custom CSS */
+.table-responsive {
+  overflow-x: auto; /* Allow horizontal scrolling when table is too wide */
+}
+
+#dataTable_wrapper {
+  padding: 20px; /* Adjust padding for the wrapper */
+}
+
+#dataTable_filter label {
+  margin-bottom: 0; /* Remove bottom margin of the label */
+}
+
+#dataTable_paginate .paginate_button {
+  padding: 5px 10px; /* Adjust padding for pagination buttons */
+}
+
+#dataTable_length select {
+  width: 80px; /* Adjust width for the "Show entries" select */
+}
+
+/* Zebra striping for odd rows */
+#dataTable tbody tr:nth-child(odd) {
+  background-color: #f2f2f2; /* Background color for odd rows */
+}
+
+#dataTable tbody tr:hover {
+  background-color: #e0e0e0; /* Background color on hover */
+}
+
+/* Styling for the header */
+#dataTable thead th {
+  background-color: #1b2a3d; /* Header background color */
+  color: #fff; /* Header text color */
+  border-color: #454d55; /* Header border color */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dataTables_wrapper .dataTables_length,
+  .dataTables_wrapper .dataTables_filter {
+    display: flex;
+    justify-content: space-between; /* Display "Show entries" and search side by side */
+    align-items: center;
+  }
+  
+  .dataTables_length select {
+    width: auto; /* Auto width to prevent cutting off */
+  }
+  
+  #dataTable_filter {
+    text-align: right; /* Align search input to the right */
+    margin-top: 10px; /* Optional: Adjust margin top for spacing */
+  }
+}

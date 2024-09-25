@@ -1,24 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Helmet } from "react-helmet"; // Import Helmet từ react-helmet
 import { Login, Home, Public } from "./pages/public";
-import { Admin } from "./pages/private";
+import { User, Qrcode, ScannerQr, ResetPassword } from "./pages/member";
 import path from "./ultils/path";
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import "./css/index.css"
+import "bootstrap/dist/css/bootstrap.min.css";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
-  
   return (
-    <div className="min-h-screen">
+    <div>
       <Routes>
+        {/* public */}
         <Route path={path.PUBLIC} element={<Public />}>
           <Route path={path.HOME} element={<Home />} />
           <Route path={path.LOGIN} element={<Login />} />
+          <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
         </Route>
-        <Route path={path.ADMIN} element={<Admin />}>
-        
+        {/* user */}
+        <Route path={path.USER} element={<User />}>
+          <Route path={path.QRCODE} element={<Qrcode />} />
+          <Route path={path.SCANERQR} element={<ScannerQr />} />
         </Route>
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

@@ -1,0 +1,98 @@
+/* Custom CSS */
+.table-responsive {
+  overflow-x: auto; /* Cho phép cuộn ngang khi bảng quá rộng */
+}
+
+#dataTable_wrapper {
+  padding: 20px; /* Điều chỉnh padding cho wrapper */
+}
+
+#dataTable_filter label {
+  margin-bottom: 0; /* Loại bỏ khoảng cách dưới của label */
+}
+
+#dataTable_paginate .paginate_button {
+  padding: 5px 10px; /* Điều chỉnh padding cho các nút phân trang */
+}
+
+#dataTable_filter {
+  margin-left: 70%; /* Khoảng cách với search input */
+}
+
+#dataTable_length select {
+  width: 80px; /* Điều chỉnh chiều rộng cho select "Show entries" */
+}
+
+/* Định dạng các dòng xen kẽ */
+#dataTable tbody tr:nth-child(odd) {
+  background-color: #f2f2f2; /* Màu nền cho các dòng lẻ */
+}
+
+#dataTable tbody tr:hover {
+  background-color: #e0e0e0; /* Màu nền khi hover */
+}
+
+/* Định dạng cho header */
+#dataTable thead th {
+  background-color: #1b2a3d; /* Màu nền header */
+  color: #fff; /* Màu chữ header */
+  border-color: #454d55; /* Màu viền header */
+}
+
+/* Điều chỉnh responsive */
+@media (min-width: 769px) {
+  .dataTables_wrapper .dataTables_length,
+  .dataTables_wrapper .dataTables_filter {
+    display: flex;
+    display: inline-block;
+  }
+}
+.floating-label {
+  position: absolute;
+  left: 1.5rem;
+  top: 3.7rem;
+  pointer-events: none;
+  transition: all 0.2s ease-out;
+  color: gray;
+}
+
+.floating-label.focused {
+  top: 1.2rem;
+  left: 1.5rem;
+  font-weight: bold; /* Bold text */
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  color: rgba(28, 28, 68, 0.836); /* Change to your desired color */
+}
+/* Style for the label above the input */
+.input-label {
+  padding-right:3%;
+  font-weight: bold;
+  font-size: 1rem; /* Increased font size */
+  color: rgba(28, 28, 68, 0.836); /* Change to your desired color */
+}
+.floating1-label {
+  position: absolute;
+  left: 1.5rem;
+  top: 20.5rem;
+  pointer-events: none;
+  transition: all 0.2s ease-out;
+  color: gray;
+}
+
+.floating1-label.focused {
+  top: 18rem;
+  left: 1.5rem;
+  font-weight: bold; /* Bold text */
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  color: rgba(28, 28, 68, 0.836); /* Change to your desired color */
+}
+.tooltip {
+  position: absolute;
+  top: -10px; /* Điều chỉnh khoảng cách với phần tử mục tiêu */
+  left: 50%; /* Điều chỉnh vị trí ngang */
+  transform: translateX(-50%); /* Canh giữa tooltip theo chiều ngang */
+  z-index: 9999; /* Đảm bảo tooltip hiển thị trên các phần tử khác */
+}
+
